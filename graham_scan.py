@@ -1,5 +1,5 @@
 """
-An implementation of Graham's scan method for finding
+An implementation of Graham's scan algorithm for finding
 the convex hull of a set of points.
 pseudo-code from https://en.wikipedia.org/wiki/Graham_scan :
 
@@ -49,6 +49,14 @@ def graham_scan(points: list[tuple[float, float]]) -> list[tuple[float, float]]:
     [(0, 0), (1, 0), (1.5, 0.5), (1.5, 1.5), (0.5, 1.5), (0, 1)]
     >>> graham_scan([(0, 0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7)])
     [(0, 0), (7, 7)]
+    >>> graham_scan([(9, 6), (3, 1), (0, 0), (5, 5), (5, 2), (7, 0), (3, 3), (1, 4)])
+    [(0, 0), (7, 0), (9, 6), (1, 4)]
+    >>> graham_scan([(0, 0), (1, 0), (1, 1), (0, 1)])
+    [(0, 0), (1, 0), (1, 1), (0, 1)]
+    >>> graham_scan([(0, 0), (1, 1), (2, 2), (3, 3), (-1, 2)])
+    [(0, 0), (3, 3), (-1, 2)]
+    >>> graham_scan([(-100, 20), (99, 3), (1, 10000001), (5133186, -25), (-66, -4)])
+    [(5133186, -25), (1, 10000001), (-100, 20), (-66, -4)]
     """
     stack: list[tuple[float, float]] = []
     point_0 = min(
@@ -58,7 +66,7 @@ def graham_scan(points: list[tuple[float, float]]) -> list[tuple[float, float]]:
     points.sort(
         key=lambda p: (
             math.atan2(p[1] - point_0[1], p[0] - point_0[0]),
-            p[0] ** 2 + p[1] ** 2,
+            (p[0] - point_0[0]) ** 2 + (p[1] - point_0[1]) ** 2,
         )
     )  # Sort the points based on their angle with point_0.
 
