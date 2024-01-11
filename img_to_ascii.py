@@ -23,7 +23,10 @@ def img_to_ascii(
     for i in range(height):
         for j in range(width):
             pixel_color = img.getpixel((j, i))
-            shade_gray = (pixel_color[0] + pixel_color[1] + pixel_color[2]) // 3
+            try:
+                shade_gray = (pixel_color[0] + pixel_color[1] + pixel_color[2]) // 3
+            except TypeError:
+                shade_gray = pixel_color
             ascii_caracter = shade_gray // ceil(255 / len(ascii_caracters))
             output += ascii_caracters[ascii_caracter] + " "
         output += "\n"
@@ -31,4 +34,4 @@ def img_to_ascii(
 
 
 if __name__ == '__main__':
-    print(img_to_ascii("/image/path", quality=0.1))
+    print(img_to_ascii("/file/path", quality=0.5))
